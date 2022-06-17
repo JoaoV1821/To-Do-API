@@ -4,6 +4,7 @@ export const userGet = (app) => {
     });
 
     app.post('/user', (req, res) => {
-        res.send("Rota POST de usuario ativada: usuário adicionado ao banco de dados");
+        const body = req.body;
+        res.send(body);
     });
 };
