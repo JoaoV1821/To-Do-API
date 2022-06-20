@@ -1,11 +1,17 @@
+import { TaskModel } from "../model/taskModel.js";
+import { bd } from "../infra/bd.js";
+
 export const taskGet = (app) => {
-    app.get('/taskGet', (req, res) => {
-        res.send('Task get');
+    app.get('/task', (req, res) => {
+        res.send(bd.Tarefas);
     });
 
     app.post('/task', (req, res) => { 
         const body = req.body;
-        res.send(body)
+        const task = new TaskModel(body.titulo, body.status, body.dataCriacao);
+        bd.Tarefas.push(task);
+        console.log(bd.Tarefas)
+        res.send(task)
     });
 
  };
