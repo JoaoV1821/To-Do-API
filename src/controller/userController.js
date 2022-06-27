@@ -1,17 +1,31 @@
 import { UserModel } from "../model/UserModel.js";
-import { bd } from "../infra/bd.js";
+import { bd } from "../infra/sqlite-db.js";
+import { UserDAO } from "../DAO/UserDao.js";
 
 export const userGet = (app) => {
+    const userDao = new UserDAO(bd);
+
     app.get('/user', (req, res) => {
-        res.send(bd.Alunos);
+       userDao.getUsers()
+       .then((result) => {res.send(result)})
+       .catch((err) => {res.send(err)})
     });
+
 
     app.post('/user', (req, res) => {
         const user = new UserModel(req.body.nome, req.body.email, req.body.senha);
 
-        bd.Alunos.push(user);
-        res.send(user);
+        bd.run (
+            "Insert into usuarios(nome, email, senha) values(?, ?, ?)", [user.nome, user.email, user.senha], (err) => {
+                if (err) {
+                    throw new Error('Não foi possível inserir valores na tabela: ');
+                } else {
+                    res.send('Valor inserido')
+                }
+            }
+        );
     });
+
 
     app.get('/user/:email', (req, res) => {
         const email = req.params.email;

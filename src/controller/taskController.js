@@ -1,5 +1,4 @@
 import { TaskModel } from "../model/taskModel.js";
-import { bd } from "../infra/bd.js";
 
 export const taskGet = (app) => {
     app.get('/task', (req, res) => {
