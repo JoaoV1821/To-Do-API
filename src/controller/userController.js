@@ -43,23 +43,25 @@ export const userGet = (app) => {
 
     app.put('/user/:email', (req, res) => {
         const email = req.params.email;
+        const dadoNovo = req.body;
         
         for (let i=0; i<=bd.Alunos.length; i++) {
-            const dadoNovo = req.body;
-            const dadoAntigo = bd.Alunos[i]
-
+        
             if (email == bd.Alunos[i].email) {
-                
+                const dadoAntigo = bd.Alunos[i];
+              
                 const user = new UserModel(
-                    dadoAntigo.nome || dadoNovo.aluno, dadoAntigo.email || dadoNovo.email, dadoAntigo.senha || dadoNovo.senha
+                    dadoNovo.nome  || dadoAntigo.nome,
+                    dadoNovo.email || dadoAntigo.email,
+                    dadoNovo.senha || dadoAntigo.senha
                 );
+            
+              bd.Alunos.splice(i,1, user);
 
-              const userAlterado = bd.Alunos.shift(i,1, user);
-
-              res.json({"Aluno antigo": dadoAntigo, "Aluno novo": userAlterado });
+              res.json({"Aluno antigo": dadoAntigo, "Aluno novo": user });
 
             } else {
-                res.send('Aluno não encontrado')
+                res.send('Aluno não encontrado');
             };
         }; 
 
