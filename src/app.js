@@ -6,6 +6,9 @@ import { taskGet }   from './controller/taskController.js';
 
 const port = 3000;
 const app = Express();
+app.get('/', (request, response) => {
+    response.send('Rodando...')
+});
 
 app.use(cors())
 app.use(Express.json());
