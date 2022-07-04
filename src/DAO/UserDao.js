@@ -13,7 +13,9 @@ export class UserDAO {
                 }
             })
         })
-    }
+    };
+
+    
 
     get bd() {
         return this._bd;
